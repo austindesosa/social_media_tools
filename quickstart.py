@@ -7,15 +7,16 @@ Original file is located at
     https://colab.research.google.com/drive/1R3iq1Bw8P0LSx82dFmnUQ3Vb7lLJZFRF
 
 This file is meant as a standalone file which can set up the entire GitHub repo **social_media_tools** by GitHub user **austindesosa**.
-You must run it as a .py file in Google Colab,
+Put it in the same directory as a Google Colab notebook, and invoke the Python code
+
+from quickstart import *
+
+so as to conveniently import all modules without having to use the command line
+
+
 """
 
 import os
 os.system('git clone https://www.github.com/austindesosa/social_media_tools')
 os.system('mv -v /content/social_media_tools/* /content/')
-
-#from time import time
-#t_start = time() + 0.0
 from social_media_tool import *
-#t_import = time() - t_start
-#print(f"Import took {t_import}  seconds")
