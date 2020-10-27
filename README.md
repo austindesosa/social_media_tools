@@ -11,3 +11,7 @@ test_by_color.py can quickly enact a basic training and testing routine for a te
 tf_cat.py contains the code to build a dense neural network for binary classificaion, inspired by Dr. Andrew Ng onlinw couorse in deep learning on Coursera.
 
 social_media_tool.py inherits from all of the above mentioned files. 
+
+quickstart.py quickly sets up this entire project on a Google Colab notebook if you import it in Googlw COlab
+
+generate_requirements.py can gwnerate a requirements.txt fie as required to run this project, through shell commands.
