@@ -37,35 +37,3 @@ import pyramid as pyr
 import test_by_color as tbc
 import tf_cat as cat 
 
-imread = np.vectorize(skio.imread)
-
-IG_NAME = 'barackobama'
-somed.download_ig('barackobama')
-v_pathnames = glob.glob(f'/content/{IG_NAME}/*.jpg')
-v_mats = [skio.imread(x) for x in v_pathnames]
-v_shapes =[x.shape for x in v_mats]
-
-dxry = {'pathnames':v_pathnames,
-        'matrices': v_mats,
-        'shapes': v_shapes 
-        }
-
-
-
-df = pd.DataFrame.from_dict(dxry)
-
-unique_shapes =df.shapes.unique()
-unique_shapes
-
-def height_one(tup):
-  return tup[0]
-
-def width_one(tup):
-  return tup[1]
-
-height_vec, width_vec = np.vectorize(height_one), np.vectorize(width_one)
-
-max_height = np.amax(height_vec(unique_shapes))
-max_width = np.amax(width_vec(unique_shapes))
-
-print(f'max_height = {max_height}\nmax_width = {max_width}')
