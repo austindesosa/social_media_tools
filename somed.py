@@ -60,7 +60,7 @@ imread = np.vectorize(skio.imread)
 def download_ig(un) -> None:
   '''Downloads a person's entire Instagram profile
   un : string, Instagram username you wish to download'''
-  os.system(f"instaloader {un}")
+  os.system(f"instaloader {un} --no-compress-json")
   print(f"Files downloaded from Instagram profile {un}")
 
 def ig_photos(un,
