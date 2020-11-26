@@ -20,6 +20,8 @@ os.system('sudu apt-get install python3 python-all-dev python3')
 os.system('pip install SpeechRecognition')
 os.system('pip install -U textblob')
 os.system('pip install instaloader')
+os.system('pip install sk-video')
+os.system('pip install boto3')
 
 t_install = time() - t_start
 

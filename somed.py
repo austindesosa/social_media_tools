@@ -21,7 +21,11 @@ import tensorflow as tf
 from tensorflow import keras
 from IPython.display import Audio
 from moviepy.editor import *
+from datetime import datetime
+from time import time
 os.system("pip install instaloader")
+os.system('pip install sk-video')
+import skvideo.io as skv
 
 #Dictionary containing popular social media wbsites
 URLS = {'ig': 'https://www.instagram.com',
@@ -34,8 +38,15 @@ URLS = {'ig': 'https://www.instagram.com',
         'linkedin':'https://www.linkedin.com',
         'youtube':'https://www.youtube.com',
         'instagram':'https://www.instagram.com',
-        'facebook':'https://www.facebook.com'
+        'facebook':'https://www.facebook.com',
+        'twitch':'https://www.twitch.tv'
         }
+
+#Default string for post-filter in instaloader
+POST_FILTER = '''--post-filter="date_utc >= datetime(2020,9,25)"'''
+
+JUST_VIDEOS = '--no-pictures --no-video-thumbnails --no-metadata-json --no-captions'
+JUST_PICTURES = '--no-videos --no-captions --no-metadata-json'
 
 def ig_videos(un,
               head='/content',
@@ -44,6 +55,12 @@ def ig_videos(un,
               v=glob.glob(s)
               y=[VideoFileClip(x) for x in v]
               return y
+
+def video_matrix(fname) -> np.ndarray:
+  x=skv.vread(fname)
+  x=x.astype(np.float32)
+  x /= 255.0
+  return x
 
 def fetch_profile(dict_key, username) -> requests.Response:
   '''Sends GET request for someone's social media profile
@@ -57,11 +74,17 @@ def fetch_profile(dict_key, username) -> requests.Response:
 imread = np.vectorize(skio.imread)
 
 
-def download_ig(un) -> None:
+def download_ig(un, 
+                pf='',
+                options = '--no-compress-json') -> int:
   '''Downloads a person's entire Instagram profile
-  un : string, Instagram username you wish to download'''
-  os.system(f"instaloader {un} --no-compress-json")
+  un : string, Instagram username you wish to download
+  pf : string, part of the linux command to use post-filter option
+  options : string, linux command line options that come after target
+  '''
+  n = os.system(f"instaloader {pf} {un} {options}")
   print(f"Files downloaded from Instagram profile {un}")
+  return n
 
 def ig_photos(un,
               head='/content',
@@ -76,6 +99,8 @@ def ig_photos(un,
   return y 
 
 def download_ig_photos(un,
+                       pf='',
+                       options = '--no-compress-json',
                        head = "/content",
                        ext="jpg"):
   '''Downloads a persons Instagram profile, and returns list of all their photos
@@ -83,7 +108,7 @@ def download_ig_photos(un,
   un : string, Instagram username of profile you want to download
   head : string, beginning of filepath names for your directory
   ext : string, extension of desired files, jpg by default'''
-  download_ig(un)
+  download_ig(un,pf,options)
   return ig_photos(un,head,ext)
 
 def git_clone(un, project) -> int:
